@@ -6,23 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://github.com/SugarBean/my_blog/settings">
-  <title>搭建Hexo博客中碰到的坑 | 小先生的博客</title>
+  <title>小先生的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="搭建Hexo博客中碰到的坑
-前段时间上网查资料时看到了好几个很不错的个人博客，感觉很棒，自己也想搭建一个玩一下，刚好在万网查到自己的域名niujiajun.com没被注册，就搜集资料准备开干了。虽然现在早就不再是博客的时代了，但本来也没想着靠这个干什么，只是说能有个专属自己地方能分享记录自己的思考，资源和学习成果，可以把琐碎的东西总结归纳然后写出来，毕竟写出来&amp;gt;说出来&amp;gt;想出来。##不">
-<meta property="og:type" content="article">
-<meta property="og:title" content="搭建Hexo博客中碰到的坑">
-<meta property="og:url" content="https://github.com/SugarBean/my_blog/settings/2017/01/09/01/index.html">
+  <meta name="description" content="Angular-ui-router的使用">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小先生的博客">
+<meta property="og:url" content="https://github.com/SugarBean/my_blog/settings/Angular-ui-router.html">
 <meta property="og:site_name" content="小先生的博客">
-<meta property="og:description" content="搭建Hexo博客中碰到的坑
-前段时间上网查资料时看到了好几个很不错的个人博客，感觉很棒，自己也想搭建一个玩一下，刚好在万网查到自己的域名niujiajun.com没被注册，就搜集资料准备开干了。虽然现在早就不再是博客的时代了，但本来也没想着靠这个干什么，只是说能有个专属自己地方能分享记录自己的思考，资源和学习成果，可以把琐碎的东西总结归纳然后写出来，毕竟写出来&amp;gt;说出来&amp;gt;想出来。##不">
-<meta property="og:image" content="https://github.com/SugarBean/my_blog/settings/img/1.png">
-<meta property="og:updated_time" content="2017-01-09T13:48:22.665Z">
+<meta property="og:description" content="Angular-ui-router的使用">
+<meta property="og:updated_time" content="2017-01-12T03:39:33.303Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="搭建Hexo博客中碰到的坑">
-<meta name="twitter:description" content="搭建Hexo博客中碰到的坑
-前段时间上网查资料时看到了好几个很不错的个人博客，感觉很棒，自己也想搭建一个玩一下，刚好在万网查到自己的域名niujiajun.com没被注册，就搜集资料准备开干了。虽然现在早就不再是博客的时代了，但本来也没想着靠这个干什么，只是说能有个专属自己地方能分享记录自己的思考，资源和学习成果，可以把琐碎的东西总结归纳然后写出来，毕竟写出来&amp;gt;说出来&amp;gt;想出来。##不">
-<meta name="twitter:image" content="https://github.com/SugarBean/my_blog/settings/img/1.png">
+<meta name="twitter:title" content="小先生的博客">
+<meta name="twitter:description" content="Angular-ui-router的使用">
   
     <link rel="alternative" href="/atom.xml" title="小先生的博客" type="application/atom+xml">
   
@@ -190,56 +185,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-01" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="page-undefined" class="article article-type-page " itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      搭建Hexo博客中碰到的坑
-    </h1>
-  
-
-        
-        <a href="/2017/01/09/01/" class="archive-article-date">
-  	<time datetime="2017-01-09T11:53:03.765Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-09</time>
-</a>
-        
-      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<h1 id="搭建Hexo博客中碰到的坑"><a href="#搭建Hexo博客中碰到的坑" class="headerlink" title="搭建Hexo博客中碰到的坑"></a>搭建Hexo博客中碰到的坑</h1><ul>
-<li>前段时间上网查资料时看到了好几个很不错的个人博客，感觉很棒，自己也想搭建一个玩一下，刚好在万网查到自己的域名niujiajun.com没被注册，就搜集资料准备开干了。虽然现在早就不再是博客的时代了，但本来也没想着靠这个干什么，只是说能有个专属自己地方能分享记录自己的思考，资源和学习成果，可以把琐碎的东西总结归纳然后写出来，毕竟写出来&gt;说出来&gt;想出来。<br>##不简单的介绍</li>
-<li><p>好了费话不多说了，开始复盘博客搭建的整个过程。首先简单介绍一下，我的博客由Hexo作为博客框架，Github提供的300M免费空间作为服务器，Next作为博客的主题。Next主题中又集成了多说的评论、分享系统和热评文章功能，百度统计服务和Swiftype站内搜索服务。<br>反正就是一锅乱炖吧，其实我也不太了解这些功能和服务，就一步步按教程走就好了。整个搭建耗时4天，其实1天就能把基本的东西搭建好，剩下的三天都在处理问题和完善细节。如题，这篇文章的目的并不是讲解如何搭建一个Hexo博客，而是记录我在搭建博客过程中遇到的问题，并给出我的解决方法。</p>
-<h2 id="搭建博客的准备"><a href="#搭建博客的准备" class="headerlink" title="搭建博客的准备"></a>搭建博客的准备</h2><p>先放几个Windows环境下搭建Hexo博客的教程：</p>
-<ul>
-<li><a href="http://jingyan.baidu.com/article/d8072ac47aca0fec95cefd2d.html" target="_blank" rel="external">史上最详细“截图”搭建Hexo博客并部署到Github</a></li>
-<li><a href="http://sunwhut.com/2015/10/30/buildBlog/?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="external">如何利用GitHub Pages和Hexo快速搭建个人博客</a></li>
-<li><a href="http://www.jianshu.com/p/ba76165ca84d" target="_blank" rel="external">hexo干货系列：（一）hexo+gitHub搭建个人独立博客</a></li>
-<li><a href="http://blog.csdn.net/renfufei/article/details/37725057" target="_blank" rel="external">创建GitHub技术博客全攻略</a></li>
-<li><a href="http://huangnx.com/2016/03/17/BlogPlatByHexoAndGithub/" target="_blank" rel="external">使用hexo在github上搭建独立博客</a></li>
-<li><a href="http://www.cnblogs.com/zhcncn/p/4097881.html" target="_blank" rel="external">Hexo搭建Github静态博客</a></li>
-<li><a href="http://huangnx.com/2016/04/01/blogForSearch/" target="_blank" rel="external">Hexo搭建博客之博客搜索引擎推广</a><br>这类教程网上一搜一大把，这里给的是我觉得写得可以的。还有一个比较作弊一些的自动化搭建工具：</li>
-<li><a href="https://project.bitmoe.cn/PortableHexo/" target="_blank" rel="external">HEXO 便携版</a></li>
-</ul>
-</li>
-<li><p>这个是我快搭好的时候发现的，不喜欢太傻瓜式的，且不想前功尽弃，所以我是没用过的，疗效如何我也不知道。<br>然后如果每个教程都大概看一下的话，可以发现每个教程的步骤不太一样，这就很讨厌了。其实上上周我就尝试过搭建，就是因为看的教程不对，所以刚开始就碰到了问题，于是放弃，拖了两周又重头再来。可见一个好的教程是成功他妈，下面是我看了几篇教程后自己的步骤：   </p>
-<ul>
-<li>注册github账号,创建一个yourname.github.io的仓库</li>
-<li>买个喜欢的域名</li>
-<li>下载<a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js</a>、<a href="https://git-scm.com/download" target="_blank" rel="external">Git</a></li>
-<li>利用Git安装Hexo，并进行本地测试</li>
-<li>部署本地文件到Github进行查看</li>
-<li>Github Pages绑定域名</li>
-<li>安装Next主题,并进行优化</li>
-<li>博客搜索引擎推广<h2 id="曲折的路和路上的坑"><a href="#曲折的路和路上的坑" class="headerlink" title="曲折的路和路上的坑"></a>曲折的路和路上的坑</h2></li>
-</ul>
-</li>
-<li>路很长，慢慢来。<h2 id="仓库的名字"><a href="#仓库的名字" class="headerlink" title="仓库的名字"></a>仓库的名字</h2>仓库的名字的正确格式是github用户名.github.io,之前没仔细看，随便起了个，果断报错。<h2 id="关于Git"><a href="#关于Git" class="headerlink" title="关于Git"></a>关于Git</h2>Git是Git Bash不是Github更不是Github Shell，是一个命令行工具，长这个样子。<br><img src="img/1.png" alt="加载失败" title="Optional title"></li>
-</ul>
+        <hr>
+<pre><code>Angular-ui-router的使用
+</code></pre><hr>
 
       
 
@@ -324,7 +277,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=https://github.com/SugarBean/my_blog/settings/2017/01/09/01/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://github.com/SugarBean/my_blog/settings/Angular-ui-router.html" alt="微信分享二维码">
     </div>
 </div>
 
@@ -368,7 +321,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
