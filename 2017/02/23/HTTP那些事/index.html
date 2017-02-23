@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="小先生的博客">
 <meta property="og:description" content="HTTP那些事
 一次完整的HTTP事物是怎样的一个过程？">
-<meta property="og:updated_time" content="2017-02-23T10:07:47.259Z">
+<meta property="og:updated_time" content="2017-02-23T11:46:16.460Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小先生的博客">
 <meta name="twitter:description" content="HTTP那些事
@@ -198,9 +198,33 @@
 <li>304 Not Modified<br>客户端有缓冲的文档并发出了一个条件性的请求（一般是提供If-Modified-Since头表示客户只想比指定日期更新的文档）。服务器告诉客户，原来缓冲的文档还可以继续使用。</li>
 <li>305 Use Proxy<br>客户请求的文档应该通过Location头所指明的代理服务器提取</li>
 </ul>
-<h2 id="HTTPS是如何实现加密？"><a href="#HTTPS是如何实现加密？" class="headerlink" title="HTTPS是如何实现加密？"></a>HTTPS是如何实现加密？</h2><blockquote>
-<p>下面，用一幅图展示一下https建立连接的整个过程<br>①客户端的浏览器向服务器传送客户端SSL 协议的版本号，加密算法的种类，产生的随机数，以及其他服务器和客户端之间通讯所需要的各种信息。<br>②服务器向客户端传送SSL 协议的版本号，加密算法的种类，随机数以及其他相关信息，同时服务器还将向客户端传送自己的证书。<br>③客户利用服务器传过来的信息验证服务器的合法性，服务器的合法性包括：证书是否过期，发行服务器证书的CA 是否可靠，发行者证书的公钥能否正确解开服务器证书的“发行者的数字签名”，服务器证书上的域名是否和服务器的实际域名相匹配。如果合法性验证没有通过，通讯将断开；如果合法性验证通过，将继续进行第四步。<br>④用户端随机产生一个用于后面通讯的“对称密码”，然后用服务器的公钥（服务器的公钥从步骤②中的服务器的证书中获得）对其加密，然后传给服务器。<br>⑤服务器用私钥解密“对称密码”(此处的公钥和私钥是相互关联的，公钥加密的数据只能用私钥解密，私钥只在服务器端保留。然后用其作为服务器和客户端的“通话密码”加解密通讯。同时在SSL 通讯过程中还要完成数据通讯的完整性，防止数据通讯中的任何变化。<br>⑥客户端向服务器端发出信息，指明后面的数据通讯将使用的步骤⑤中的主密码为对称密钥，同时通知服务器客户端的握手过程结束。<br>⑦服务器向客户端发出信息，指明后面的数据通讯将使用的步骤⑤中的主密码为对称密钥，同时通知客户端服务器端的握手过程结束。<br>⑧SSL 的握手部分结束，SSL 安全通道的数据通讯开始，客户和服务器开始使用相同的对称密钥进行数据通讯，同时进行通讯完整性的检验</p>
-</blockquote>
+<h2 id="HTTPS是如何实现加密？"><a href="#HTTPS是如何实现加密？" class="headerlink" title="HTTPS是如何实现加密？"></a>HTTPS是如何实现加密？</h2><p>以下是理论部分，仅供理解参考，如果要粘代码，网上会有很多，此处不再提供</p>
+<p>关于https加密：<br>https是在http的基础上多了一次协议ssl，该协议用来给传输的内容进行加密<br>https加密流程：<br>1，客户端将SSL 协议的版本号、加密算法的种类，产生的随机数A等信息传给服务器<br>2，服务器选择其中的一种组合作为加密方式，同时将自己的证书、公钥、另外一个随机数B一起传给客户端<br>3，客户端验证客户端返回的信息（包括证书，签名，域名等），验证成功，则生成对称加密密钥S，用公钥加密后返回给服务器<br>4，服务器用私钥将这段密钥解密。得到对称密钥S，并用此密钥加密一段握手消息返回给客户端<br>5，客户端收到握手消息，用对称密钥解密，验证成功，则握手成功。</p>
+<p>单向加密和双向加密：<br>单向加密：服务端有一套（两份）证书：含公钥和私钥的jks文件（此文件自己保留），和只含公钥的ser文件，其中ser文件是要给客户端的<br>双向加密：除了具有单向加密的特性（服务端验证客户端），客户端也有一套（两份）证书来验证服务端消息，对于android来说，分为bks文件（含公钥和私钥，自己保留）、ser文件（含公钥给服务端）</p>
+<p>关系：<br>1，服务端生成jks文件，并导出只含公钥的ser文件给服务端<br>2，客户端用ser文件生成自己的bks文件，用来验证服务端的消息<br>3，客户端自己生成pfx文件，并导出只含公钥的ser文件给服务端<br>4，服务端用客户端的ser文件进行验证来自客户端的消息</p>
+<p>用到的概念和变量：<br>keytool– 用来生成证书的，jks、bks、cer、pfx等<br>keystore– 用来储存证书的，初始化时传入证书类型,keystor的初始化：<br>keystore.load(inputStream, passWord);或keystore.load(null),keystroe.setCertificateEntry(alias,certificate);<br>certificateFactory– 证书工厂，通常通过传入参数（X509）生成，用来读取本地的证书数据流，并生成相应的证书<br>SSLSocketFactory–非常重要，是所有框架和网络请求从http转https的关键所在，例如：okhttp:直接执行okhttp.setSslSocketFacotry(),<br>volley:new RequestQueue(new DiskBasedCache(),new BasicNetwork(new HurlStack(null, sslSocketFactory)));<br>SSLContext–用来得到sslSocketFactory sslContext.getSocketFactory();自身生成方式：SSLContext.getInstance(“TLS”);<br>keyManager[] trustManager[] –用来初始化sslContext：sslContext.init(keyManager[], trustManger[], new SecureRandom()),其中，忽略证书验证二者皆可为null，单向认证只要trustManger[],双向认证二者都要，new<br> SecureRandom()可以为null;<br>(如果alias不为空，需要通过new KeyManager())<br>KeyManagerFactory TrustManagerFactory– 用来生成keyManager[]和trustManager[],自己通过KeyStore.getInstance(type) 生成，通过keystore变量初始化：keyManagerFactory.init(keystore,password);其中，type是bks等，默认getDefaultType()是jks；</p>
+<p>附：</p>
+<p>Windows IIS下的数字证书格式一般为。pfx</p>
+<p>Java tomcat 下的数字证书格式一般为.jks或.store</p>
+<p>Apache和nginx一般是.pem</p>
+<p>证书请求文件一般是.csr</p>
+<p>证书公钥文件一般是.cer或.crt</p>
+<p>证书私钥文件一般是.key</p>
+<p>服务器提供的cer证书中包含公钥，而android的keystore中需要bks格式的信任证书，转换方法如下：</p>
+<p>转换命令说明：</p>
+<p>keytool -importcert -v -trustcacerts -alias 位置1 \</p>
+<p>-file 位置2 \</p>
+<p>-keystore 位置3 -storetype BKS \</p>
+<p>-providerclass org.bouncycastle.jce.provider.BouncyCastleProvider \</p>
+<p>-providerpath 位置4 -storepass 位置5</p>
+<p>位置1:是个随便取的别名</p>
+<p>位置2:cer或crt证书的全地址</p>
+<p>位置3:生成后bks文件的位置,建议写全地址</p>
+<p>位置4:上面下载JCE Provider包的位置</p>
+<p>位置5:生成后证书的密码</p>
+<p>转换完整示例</p>
+<p>keytool -importcert -v -trustcacerts -alias my12306 -file C:\Users\Administrator\Desktop\证书\srca.cer -keystore<br> C:\Users\Administrator\Desktop\证书\srca.bks -storetype BKS -providerclass org.bouncycastle.jce.provider.BouncyCastleProvider -providerpath C:\Users\Administrator\Desktop\证书\bcprov-jdk15on-146.jar -storepass 123456</p>
+<p>生成trustKeyStore后，将bks证书通过流的方式读取出来，并初始化trustKeyStore，用这个keysore初始化trustMangerFactory并生成相应的trustManager。</p>
 
       
 
