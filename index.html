@@ -183,6 +183,90 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-HTTP那些事" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/23/HTTP那些事/">HTTP</a>
+    </h1>
+  
+
+        
+        <a href="/2017/02/23/HTTP那些事/" class="archive-article-date">
+  	<time datetime="2017-02-23T08:03:26.324Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <a id="more"></a>
+<h2 id="一次完整的HTTP事物是怎样的一个过程？"><a href="#一次完整的HTTP事物是怎样的一个过程？" class="headerlink" title="一次完整的HTTP事物是怎样的一个过程？"></a>一次完整的HTTP事物是怎样的一个过程？</h2><p>基本流程：<br>a.域名解析<br>b.发起TCP的3次握手<br>c.建立TCP连接后发起的http请求<br>d.服务端响应http请求，浏览器得到html代码<br>e.浏览器解析html代码，并请求html代码中的资源<br>f.浏览器对页面进行渲染呈现给用户</p>
+<h2 id="HTTP常用状态码有哪些"><a href="#HTTP常用状态码有哪些" class="headerlink" title="HTTP常用状态码有哪些"></a>HTTP常用状态码有哪些</h2><ul>
+<li>200 OK</li>
+<li>301 Moved Permanently</li>
+<li>302 Found</li>
+<li>304 Not Modified</li>
+<li>307 Temporary Redirect</li>
+<li>400 Bad Request</li>
+<li>401 Unauthorized</li>
+<li>403 Forbidden</li>
+<li>404 Not Found</li>
+<li>410 Gone</li>
+<li>500 Internal Server Error</li>
+<li>501 Not Implemented</li>
+<li>100 Continue<br>初始的请求已经接受，客户应当继续发送请求的其余部分</li>
+<li>101 Switching Protocols<br>服务器将遵从客户的请求转换到另外一种协议</li>
+<li>200 OK<br>一切正常，对GET和POST请求的应答文档跟在后面</li>
+<li>201 Created<br>服务器已经创建了文档，Location头给出了它的URL。</li>
+<li>202 Accepted<br>已经接受请求，但处理尚未完成。</li>
+<li>203 Non-Authoritative Information<br>文档已经正常地返回，但一些应答头可能不正确，因为使用的是文档的拷贝</li>
+<li>204 No Content<br>没有新文档，浏览器应该继续显示原来的文档。如果用户定期地刷新页面，而Servlet可以确定用户文档足够新，这个状态代码是很有用的</li>
+<li>205 Reset Content<br>没有新的内容，但浏览器应该重置它所显示的内容。用来强制浏览器清除表单输入内容</li>
+<li>206 Partial Content<br>客户发送了一个带有Range头的GET请求，服务器完成了它</li>
+<li>300 Multiple Choices<br>客户请求的文档可以在多个位置找到，这些位置已经在返回的文档内列出。如果服务器要提出优先选择，则应该在Location应答头指明。</li>
+<li>301 Moved Permanently<br>客户请求的文档在其他地方，新的URL在Location头中给出，浏览器应该自动地访问新的URL。</li>
+<li>302 Found<br>类似于301，但新的URL应该被视为临时性的替代，而不是永久性的。</li>
+<li>303 See Other<br>类似于301/302，不同之处在于，如果原来的请求是POST，Location头指定的重定向目标文档应该通过GET提取</li>
+<li>304 Not Modified<br>客户端有缓冲的文档并发出了一个条件性的请求（一般是提供If-Modified-Since头表示客户只想比指定日期更新的文档）。服务器告诉客户，原来缓冲的文档还可以继续使用。</li>
+<li>305 Use Proxy<br>客户请求的文档应该通过Location头所指明的代理服务器提取</li>
+</ul>
+<h2 id="HTTPS是如何实现加密？"><a href="#HTTPS是如何实现加密？" class="headerlink" title="HTTPS是如何实现加密？"></a>HTTPS是如何实现加密？</h2><blockquote>
+<p>下面，用一幅图展示一下https建立连接的整个过程<br>①客户端的浏览器向服务器传送客户端SSL 协议的版本号，加密算法的种类，产生的随机数，以及其他服务器和客户端之间通讯所需要的各种信息。<br>②服务器向客户端传送SSL 协议的版本号，加密算法的种类，随机数以及其他相关信息，同时服务器还将向客户端传送自己的证书。<br>③客户利用服务器传过来的信息验证服务器的合法性，服务器的合法性包括：证书是否过期，发行服务器证书的CA 是否可靠，发行者证书的公钥能否正确解开服务器证书的“发行者的数字签名”，服务器证书上的域名是否和服务器的实际域名相匹配。如果合法性验证没有通过，通讯将断开；如果合法性验证通过，将继续进行第四步。<br>④用户端随机产生一个用于后面通讯的“对称密码”，然后用服务器的公钥（服务器的公钥从步骤②中的服务器的证书中获得）对其加密，然后传给服务器。<br>⑤服务器用私钥解密“对称密码”(此处的公钥和私钥是相互关联的，公钥加密的数据只能用私钥解密，私钥只在服务器端保留。然后用其作为服务器和客户端的“通话密码”加解密通讯。同时在SSL 通讯过程中还要完成数据通讯的完整性，防止数据通讯中的任何变化。<br>⑥客户端向服务器端发出信息，指明后面的数据通讯将使用的步骤⑤中的主密码为对称密钥，同时通知服务器客户端的握手过程结束。<br>⑦服务器向客户端发出信息，指明后面的数据通讯将使用的步骤⑤中的主密码为对称密钥，同时通知客户端服务器端的握手过程结束。<br>⑧SSL 的握手部分结束，SSL 安全通道的数据通讯开始，客户和服务器开始使用相同的对称密钥进行数据通讯，同时进行通讯完整性的检验</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/02/23/HTTP那些事/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-Android配置环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -248,7 +332,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
+         <a id="more"></a>
 <h1 id="搭建Hexo博客中碰到的坑"><a href="#搭建Hexo博客中碰到的坑" class="headerlink" title="搭建Hexo博客中碰到的坑"></a>搭建Hexo博客中碰到的坑</h1><ul>
 <li>前段时间上网查资料时看到了好几个很不错的个人博客，感觉很棒，自己也想搭建一个玩一下，刚好在万网查到自己的域名niujiajun.com没被注册，就搜集资料准备开干了。虽然现在早就不再是博客的时代了，但本来也没想着靠这个干什么，只是说能有个专属自己地方能分享记录自己的思考，资源和学习成果，可以把琐碎的东西总结归纳然后写出来，毕竟写出来&gt;说出来&gt;想出来。<br>##不简单的介绍</li>
 <li><p>好了费话不多说了，开始复盘博客搭建的整个过程。首先简单介绍一下，我的博客由Hexo作为博客框架，Github提供的300M免费空间作为服务器，Next作为博客的主题。Next主题中又集成了多说的评论、分享系统和热评文章功能，百度统计服务和Swiftype站内搜索服务。<br>反正就是一锅乱炖吧，其实我也不太了解这些功能和服务，就一步步按教程走就好了。整个搭建耗时4天，其实1天就能把基本的东西搭建好，剩下的三天都在处理问题和完善细节。如题，这篇文章的目的并不是讲解如何搭建一个Hexo博客，而是记录我在搭建博客过程中遇到的问题，并给出我的解决方法。</p>
