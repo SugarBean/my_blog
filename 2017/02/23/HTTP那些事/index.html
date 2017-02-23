@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="小先生的博客">
 <meta property="og:description" content="HTTP那些事
 一次完整的HTTP事物是怎样的一个过程？">
-<meta property="og:updated_time" content="2017-02-23T11:51:45.115Z">
+<meta property="og:updated_time" content="2017-02-23T11:55:10.650Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小先生的博客">
 <meta name="twitter:description" content="HTTP那些事
@@ -213,10 +213,11 @@
 <li>服务端用客户端的ser文件进行验证来自客户端的消息</li>
 </ul>
 </blockquote>
-<h3 id="用到的概念和变量："><a href="#用到的概念和变量：" class="headerlink" title="用到的概念和变量："></a>用到的概念和变量：</h3><p>keytool– 用来生成证书的，jks、bks、cer、pfx等<br>keystore– 用来储存证书的，初始化时传入证书类型,keystor的初始化：<br>keystore.load(inputStream, passWord);或keystore.load(null),keystroe.setCertificateEntry(alias,certificate);<br>certificateFactory– 证书工厂，通常通过传入参数（X509）生成，用来读取本地的证书数据流，并生成相应的证书<br>SSLSocketFactory–非常重要，是所有框架和网络请求从http转https的关键所在，例如：okhttp:直接执行okhttp.setSslSocketFacotry(),<br>volley:new RequestQueue(new DiskBasedCache(),new BasicNetwork(new HurlStack(null, sslSocketFactory)));<br>SSLContext–用来得到sslSocketFactory sslContext.getSocketFactory();自身生成方式：SSLContext.getInstance(“TLS”);<br>keyManager[] trustManager[] –用来初始化sslContext：sslContext.init(keyManager[], trustManger[], new SecureRandom()),其中，忽略证书验证二者皆可为null，单向认证只要trustManger[],双向认证二者都要，new<br> SecureRandom()可以为null;<br>(如果alias不为空，需要通过new KeyManager())<br>KeyManagerFactory TrustManagerFactory– 用来生成keyManager[]和trustManager[],自己通过KeyStore.getInstance(type) 生成，通过keystore变量初始化：keyManagerFactory.init(keystore,password);其中，type是bks等，默认getDefaultType()是jks；</p>
+<h3 id="用到的概念和变量："><a href="#用到的概念和变量：" class="headerlink" title="用到的概念和变量："></a>用到的概念和变量：</h3><blockquote>
+<p>keytool– 用来生成证书的，jks、bks、cer、pfx等<br>keystore– 用来储存证书的，初始化时传入证书类型,keystor的初始化：<br>keystore.load(inputStream, passWord);或keystore.load(null),keystroe.setCertificateEntry(alias,certificate);<br>certificateFactory– 证书工厂，通常通过传入参数（X509）生成，用来读取本地的证书数据流，并生成相应的证书<br>SSLSocketFactory–非常重要，是所有框架和网络请求从http转https的关键所在，例如：okhttp:直接执行okhttp.setSslSocketFacotry(),<br>volley:new RequestQueue(new DiskBasedCache(),new BasicNetwork(new HurlStack(null, sslSocketFactory)));<br>SSLContext–用来得到sslSocketFactory sslContext.getSocketFactory();自身生成方式：SSLContext.getInstance(“TLS”);<br>keyManager[] trustManager[] –用来初始化sslContext：sslContext.init(keyManager[], trustManger[], new SecureRandom()),其中，忽略证书验证二者皆可为null，单向认证只要trustManger[],双向认证二者都要，new<br> SecureRandom()可以为null;<br>(如果alias不为空，需要通过new KeyManager())<br>KeyManagerFactory TrustManagerFactory– 用来生成keyManager[]和trustManager[],自己通过KeyStore.getInstance(type) 生成，通过keystore变量初始化：keyManagerFactory.init(keystore,password);其中，type是bks等，默认getDefaultType()是jks；</p>
+</blockquote>
 <h2 id="附："><a href="#附：" class="headerlink" title="附："></a>附：</h2><blockquote>
 <p>Windows IIS下的数字证书格式一般为。pfx</p>
-</blockquote>
 <p>Java tomcat 下的数字证书格式一般为.jks或.store</p>
 <p>Apache和nginx一般是.pem</p>
 <p>证书请求文件一般是.csr</p>
@@ -237,6 +238,7 @@
 <p>转换完整示例</p>
 <p>keytool -importcert -v -trustcacerts -alias my12306 -file C:\Users\Administrator\Desktop\证书\srca.cer -keystore<br> C:\Users\Administrator\Desktop\证书\srca.bks -storetype BKS -providerclass org.bouncycastle.jce.provider.BouncyCastleProvider -providerpath C:\Users\Administrator\Desktop\证书\bcprov-jdk15on-146.jar -storepass 123456</p>
 <p>生成trustKeyStore后，将bks证书通过流的方式读取出来，并初始化trustKeyStore，用这个keysore初始化trustMangerFactory并生成相应的trustManager。</p>
+</blockquote>
 
       
 
